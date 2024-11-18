@@ -24,14 +24,20 @@ class FicheroPolicy
     // Política para restaurar archivos eliminados
     public function restore(User $user, Fichero $file)
     {
-        // Permite restaurar si el usuario tiene permiso o es el propietario del archivo
-        return $user->hasPermission('restore') || $user->id === $file->user_id;
+        // Solo permite restaurar si el usuario tiene el rol de 'admin'
+        return $user->hasRole('admin');
     }
 
     // Política para eliminar permanentemente archivos
     public function forceDelete(User $user, Fichero $file)
     {
-        // Permite eliminar permanentemente si el usuario tiene el permiso específico
-        return $user->hasPermission('forceDelete');
+        // Solo permite eliminar permanentemente si el usuario tiene el rol de 'admin'
+        return $user->hasRole('admin');
+    }
+
+    // App\Policies\UserPolicy.php
+    public function viewAny(User $user)
+    {
+        return true; // Asegúrate de que este método retorne true para pruebas.
     }
 }

@@ -3,16 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 
 class Fichero extends Model
 {
-    use SoftDeletes; //Con esto, los archivos eliminados se marcarán con una fecha en deleted_at
-    // en lugar de ser borrados físicamente de la base de datos.
+    use SoftDeletes; // Con esto, los archivos eliminados se marcarán con una fecha en deleted_at
 
-    protected $fillable = ['name', 'path', 'user_id', 'size', 'type', 'description'];
+    protected $fillable = [
+        'name', 'path', 'size', 'type', 'user_id', 'description', 'tags', 'author'
+    ];
 
     public function getsize()
     {
@@ -27,5 +29,11 @@ class Fichero extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    // Método para la relación de archivos compartidos
+    public function sharedWith(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'file_shares', 'fichero_id', 'user_id');
     }
 }

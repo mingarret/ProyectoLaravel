@@ -27,15 +27,82 @@ class UserController extends Controller
 
     public function index()
     {
-        // Verificar si el usuario tiene permisos para gestionar usuarios
-        if (Gate::denies('manage-users')) {
-            abort(403, 'No tienes permiso para acceder a esta página.');
-        }
-
-        // Recupera y muestra los usuarios si la autorización es exitosa
+        // Lógica para mostrar la lista de usuarios
         $users = User::all();
         return view('admin.users.index', compact('users'));
     }
+
+    public function create()
+    {
+        return view('admin.users.create'); // Asegúrate de que exista esta vista
+    }
+
+
+    //Metodo para la creacion y validacion de un usuario
+    public function store(Request $request)
+    {
+        // Validación de los datos de entrada
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|string', // Añade este campo si asignas un rol en la creación
+        ]);
+
+        // Creación del usuario
+        User::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => bcrypt($request->input('password')),
+            'role' => $request->input('role'), // Asignación del rol
+        ]);
+
+        // Redirige al listado de usuarios con un mensaje de éxito
+        return redirect()->route('admin.users')->with('success', 'Usuario creado exitosamente.');
+    }
+
+
+    //Metodo para editar usuarios
+    public function edit($id)
+    {
+        $user = User::findOrFail($id);
+        return view('admin.users.edit', compact('user'));
+    }
+
+
+    //Metodo para actualizar los datos del usuario
+    public function update(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'role' => 'required|string',
+        ]);
+
+        $user->update([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'role' => $request->input('role'),
+        ]);
+
+        return redirect()->route('admin.users')->with('success', 'Usuario actualizado correctamente.');
+    }
+
+    //Metodo para eliminar usuario
+    public function destroy($id)
+    {
+        // Encuentra el usuario por ID y elimínalo
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        // Redirige de vuelta al listado de usuarios con un mensaje de éxito
+        return redirect()->route('admin.users')->with('success', 'Usuario eliminado correctamente.');
+    }
+
+
+
 
 
 }

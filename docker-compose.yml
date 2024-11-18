@@ -23,6 +23,7 @@ services:
             - sail
         depends_on:
             - mysql
+
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:
@@ -51,7 +52,7 @@ services:
     phpmyadmin:
         image: phpmyadmin/phpmyadmin:latest
         ports:
-            - '8080:80' # Accederás a phpMyAdmin en http://localhost:8080
+            - '8081:80' # Cambia 8080 a 8081 o cualquier otro puerto disponible
         environment:
             PMA_HOST: mysql
             PMA_USER: '${DB_USERNAME}'
@@ -60,10 +61,11 @@ services:
             - mysql
         networks:
             - sail
-                    
+
 networks:
     sail:
         driver: bridge
+
 volumes:
     sail-mysql:
         driver: local

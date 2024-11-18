@@ -5,10 +5,18 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
+
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'role',
+    ];
 
     // Relación muchos a muchos con roles
     public function roles()
@@ -34,6 +42,4 @@ class User extends Authenticatable
         return $this->permissions->contains('name', $permissionName) ||
                $this->roles->pluck('permissions')->flatten()->contains('name', $permissionName);
     }
-
 }
-
