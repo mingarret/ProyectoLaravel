@@ -165,16 +165,26 @@ class FileController extends Controller
 
     //Metodo para la busqueda de archivos
     public function search(Request $request)
-    {
-        $query = $request->input('query');
-        $ficheros = Fichero::where('name', 'LIKE', "%{$query}%")
-                    ->orWhere('description', 'LIKE', "%{$query}%")
-                    ->orWhere('tags', 'LIKE', "%{$query}%")
-                    ->orWhere('author', 'LIKE', "%{$query}%")
+{
+    $query = $request->input('query');
+    
+    $ficheros = Fichero::where(function ($q) use ($query) {
+                        $q->where('user_id', Auth::id())
+                          ->orWhereHas('sharedWith', function ($sharedQuery) {
+                              $sharedQuery->where('user_id', Auth::id());
+                          });
+                    })
+                    ->where(function ($q) use ($query) {
+                        $q->where('name', 'LIKE', "%{$query}%")
+                          ->orWhere('description', 'LIKE', "%{$query}%")
+                          ->orWhere('tags', 'LIKE', "%{$query}%")
+                          ->orWhere('author', 'LIKE', "%{$query}%");
+                    })
                     ->get();
 
-        return view('welcome', compact('ficheros'))->with('success', 'Resultados de la búsqueda');
-    }
+    return view('searchResults', compact('ficheros'))->with('success', 'Resultados de la búsqueda');
+}
+
 
 
 }

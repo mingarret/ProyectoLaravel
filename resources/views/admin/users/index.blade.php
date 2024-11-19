@@ -7,7 +7,7 @@
         <a href="{{ route('admin.users.create') }}" class="btn btn-success">Añadir Usuario</a>
     </div>
     <div class="mb-4">
-        <a href="{{ route('wellcome') }}" class="btn btn-secondary mb-3">Volver a Inicio</a>
+        <a href="{{ route('welcome') }}" class="btn btn-secondary mb-3">Volver a Inicio</a>
     </div>
     
     @if($users->count())
