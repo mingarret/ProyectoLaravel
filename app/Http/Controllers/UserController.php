@@ -37,7 +37,6 @@ class UserController extends Controller
         return view('admin.users.create'); // Asegúrate de que exista esta vista
     }
 
-
     //Metodo para la creacion y validacion de un usuario
     public function store(Request $request)
     {
@@ -61,14 +60,12 @@ class UserController extends Controller
         return redirect()->route('admin.users')->with('success', 'Usuario creado exitosamente.');
     }
 
-
     //Metodo para editar usuarios
     public function edit($id)
     {
         $user = User::findOrFail($id);
         return view('admin.users.edit', compact('user'));
     }
-
 
     //Metodo para actualizar los datos del usuario
     public function update(Request $request, $id)
@@ -86,7 +83,6 @@ class UserController extends Controller
             'email' => $request->input('email'),
             'role' => $request->input('role'),
         ]);
-
         return redirect()->route('admin.users')->with('success', 'Usuario actualizado correctamente.');
     }
 
@@ -96,13 +92,7 @@ class UserController extends Controller
         // Encuentra el usuario por ID y elimínalo
         $user = User::findOrFail($id);
         $user->delete();
-
         // Redirige de vuelta al listado de usuarios con un mensaje de éxito
         return redirect()->route('admin.users')->with('success', 'Usuario eliminado correctamente.');
     }
-
-
-
-
-
 }

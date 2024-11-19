@@ -1,7 +1,8 @@
 @extends('layouts.app')
+<link href="{{ asset('css/styles.css') }}" rel="stylesheet">
 
 @section('content')
-<div class="container my-5">
+<div class="custom-card p-4 mb-4">
     <h3>Gestión de Usuarios</h3>
     <div class="mb-4">
         <a href="{{ route('admin.users.create') }}" class="btn btn-success">Añadir Usuario</a>

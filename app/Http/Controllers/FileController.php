@@ -184,7 +184,4 @@ class FileController extends Controller
 
     return view('searchResults', compact('ficheros'))->with('success', 'Resultados de la búsqueda');
 }
-
-
-
 }

@@ -1,7 +1,8 @@
 @extends('layouts.app')
+<link href="{{ asset('css/styles.css') }}" rel="stylesheet">
 
 @section('content')
-<div class="container">
+<div class="custom-card p-4 mb-4">
     <h2>Crear Nuevo Usuario</h2>
     <form action="{{ route('admin.users.store') }}" method="POST">
         @csrf
@@ -26,15 +27,17 @@
             <input type="text" name="role" id="role" class="form-control" required>
         </div>
         <button type="submit" class="btn btn-primary mt-3">Crear Usuario</button>
+        <a href="{{ route('admin.users') }}" class="btn btn-outline-secondary mt-3">Volver a la Lista de Usuarios</a>
+        <a href="{{ route('welcome') }}" class="btn btn-outline-primary mt-3">Volver al Inicio</a>
         @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
     </form>
 </div>

@@ -1,0 +1,27 @@
+/* resources/css/styles.css */
+.custom-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.custom-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.custom-icon-size {
+    font-size: 25px;
+}
+
+.icon-button {
+    font-size: 1.5rem; /* Ajusta el tamaño del icono */
+    padding: 0.5rem;   /* Ajusta el espacio interno del botón */
+}
+
+.icon-button i {
+    font-size: inherit; /* Los iconos toman el tamaño de la fuente del botón */
+}

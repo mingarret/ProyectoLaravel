@@ -1,7 +1,8 @@
 @extends('layouts.app')
+<link href="{{ asset('css/styles.css') }}" rel="stylesheet">
 
 @section('content')
-<div class="container mt-5">
+<div class="custom-card p-4 mb-4">
     <h2 class="mb-4">Editar Usuario</h2>
     <form action="{{ route('admin.users.update', $user->id) }}" method="POST">
         @csrf
@@ -27,7 +28,7 @@
 
         <button type="submit" class="btn btn-success mt-3">Guardar Cambios</button>
         <a href="{{ route('admin.users') }}" class="btn btn-outline-secondary mt-3">Volver a la Lista de Usuarios</a>
-        <a href="{{ route('wellcome') }}" class="btn btn-outline-primary mt-3">Volver al Inicio</a>
+        <a href="{{ route('welcome') }}" class="btn btn-outline-primary mt-3">Volver al Inicio</a>
     </form>
 </div>
 @endsection

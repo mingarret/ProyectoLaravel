@@ -1,7 +1,8 @@
 @extends('layouts.app')
+<link href="{{ asset('css/styles.css') }}" rel="stylesheet">
 
 @section('content')
-<div class="container my-5">
+<div class="custom-card p-4 mb-4">
     <h3>Vista Previa: {{ $file->name }}</h3>
     <div class="mb-3">
         @if (str_contains($file->type, 'image'))
@@ -14,7 +15,9 @@
             <p>No se puede mostrar una vista previa para este tipo de archivo.</p>
         @endif
     </div>
-    <a href="{{ route('files.download', $file->id) }}" class="btn btn-primary">Descargar Archivo</a>
-    <a href="{{ route('wellcome') }}" class="btn btn-secondary">Volver a Inicio</a>
+    <a href="/download/{{ $file->id }}" class="btn btn-primary btn-sm" title="Descargar">
+        <i class="fas fa-download custom-icon-size"></i> <!-- Icono de descarga -->
+    </a>
+    <a href="{{ route('welcome') }}" class="btn btn-secondary">Volver a Inicio</a>
 </div>
 @endsection

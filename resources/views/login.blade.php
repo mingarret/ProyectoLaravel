@@ -1,15 +1,9 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión</title>
-    <!-- Incluye Bootstrap desde un CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
+@extends('layouts.app')
 
-<div class="container my-5">
+@section('title', 'Iniciar Sesión')
+<link href="{{ asset('css/styles.css') }}" rel="stylesheet">
+@section('content')
+<div class="p-4 mb-4">
     <!-- Mensajes de error -->
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -22,7 +16,7 @@
     @endif
 
     <!-- Formulario de Inicio de Sesión -->
-    <div class="row justify-content-center">
+    <div class="row justify-content-center custom-card p-4 mb-4">
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header text-center">
@@ -48,8 +42,4 @@
         </div>
     </div>
 </div>
-
-<!-- Incluye Bootstrap JavaScript desde un CDN (opcional) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+@endsection

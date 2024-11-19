@@ -1,7 +1,8 @@
 @extends('layouts.app')
+<link href="{{ asset('css/styles.css') }}" rel="stylesheet">
 
 @section('content')
-<div class="container my-5">
+<div class="custom-card p-4 mb-4">
     <h3 class="mb-4">Administración de Usuarios</h3>
 
     @can('manage-users') <!-- Verifica que el usuario tenga permiso para gestionar usuarios -->

@@ -24,7 +24,7 @@
                 <!-- Agrega más campos si es necesario -->
                 <button type="submit" class="btn btn-success mt-3">Guardar Cambios</button>
             </form>
-            <a href="{{ route('wellcome') }}" class="btn btn-outline-secondary mt-3">Volver al Inicio</a>
+            <a href="{{ route('welcome') }}" class="btn btn-outline-secondary mt-3">Volver al Inicio</a>
         </div>
     </div>
 </div>
