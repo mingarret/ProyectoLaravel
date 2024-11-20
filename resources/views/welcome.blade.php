@@ -147,9 +147,9 @@
                 <p class="text-center text-muted mt-3">No hay archivos compartidos.</p>
             @endif
         </div>
-
+        </tr>
         {{-- Div para los Archivos Activos --}}
-        <div class="custom-card p-4 mb-4">
+        {{-- <div class="custom-card p-4 mb-4"> --}}
             <div class="card-header bg-dark text-white text-center" style="width: 100%;">
                 <h4 class="mb-0">Archivos Activos</h4>
             </div>
@@ -202,6 +202,34 @@
                                     <td>{{ $fichero->created_at->format('d/m/Y H:i') }}</td>
                                     <td>{{ $fichero->updated_at->format('d/m/Y H:i') }}</td>
                                 </tr>
+                                <!-- Modal de Compartir -->
+                                <div class="modal fade" id="shareModal-{{ $fichero->id }}" tabindex="-1" aria-labelledby="shareModalLabel-{{ $fichero->id }}" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <form method="POST" action="{{ route('files.share', $fichero->id) }}">
+                                                @csrf
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="shareModalLabel-{{ $fichero->id }}">Compartir Archivo</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <label for="user_id" class="form-label">Selecciona el usuario:</label>
+                                                    <select name="user_id" class="form-select" required>
+                                                        @foreach ($users as $user)
+                                                            @if ($user->id !== Auth::id())
+                                                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                                            @endif
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                    <button type="submit" class="btn btn-primary">Compartir</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                             @endforeach
                         </tbody>
                     </table>
@@ -209,9 +237,8 @@
                     <p class="text-center text-muted mt-3">No hay archivos disponibles.</p>
                 @endif
             </div>
-        </div>
-        
-        
+        {{-- </div> --}}
+        </tr>
         {{-- Div para los Archivos Eliminados --}}
         <div class="custom-card p-4 mb-4">
             @if($ficherosEliminados->isNotEmpty())

@@ -4,6 +4,8 @@
     border-radius: 10px;
     border: 1px solid #ddd;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: visible; /* Asegura que el modal no sea cortado */
+    position: static;  /* Evita interferencias con modales */
     padding: 20px;
     margin-bottom: 20px;
 }
