@@ -1,9 +1,10 @@
 @extends('layouts.app')
-<link href="{{ asset('css/styles.css') }}" rel="stylesheet">
+
 
 @section('title', 'Bienvenido')
-
 @section('content')
+<link href="{{ asset('css/styles.css') }}" rel="stylesheet">
+
 <div class="container text-center my-5">
     @guest
         <div class="row justify-content-center mb-5">
@@ -31,6 +32,22 @@
             @endif
         </div>
 
+        {{-- Div para Reportes --}}
+        <div class="custom-card p-4 mb-4">
+            <h2 class="mb-3 text-center">Archivos Disponibles</h2>
+            <ul class="list-group">
+                @foreach($files as $file)
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>{{ $file->name }}</span>
+                        <a href="{{ route('report.fileActivity', ['file' => $file->id]) }}" class="btn btn-sm btn-outline-primary">Reporte de Actividad</a>
+                    </li>
+                @endforeach
+            </ul>
+            <div class="mt-4 text-center">
+                <a href="{{ route('report.usageStatistics') }}" class="btn btn-primary">Ver Estadísticas de Uso</a>
+            </div>
+        </div>
+        
         {{-- Div para Buscar Archivos --}}
         <div class="custom-card p-4 mb-4">
             <div class="card-body">

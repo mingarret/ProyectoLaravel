@@ -4,6 +4,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ReportController;
 use App\Models\Fichero;
 use Illuminate\Support\Facades\Route;
 
@@ -52,6 +53,7 @@ Route::delete('/admin/users/{user}', [UserController::class, 'destroy'])->name('
 //Ruta edicion de metadatos
 Route::get('/files/edit/{id}', [FileController::class, 'showEditMetadataForm'])->name('files.editMetadata');
 Route::post('/files/{id}/update', [FileController::class, 'updateMetadata'])->name('files.updateMetadata');
+Route::get('/stream/{file}', [FileController::class, 'stream'])->name('files.preview');
 
 //Ruta para formulario de busqueda
 Route::get('/search', [FileController::class, 'search'])->name('files.search');
@@ -59,6 +61,14 @@ Route::get('/search', [FileController::class, 'search'])->name('files.search');
 //Ruta para compartir archivos
 //Route::post('/files/{id}/share', [FileController::class, 'share'])->name('files.share');
 Route::post('/files/{fichero}/share', [FileController::class, 'share'])->name('files.share');
+
+//Ruta para reportes 
+Route::get('/report/file-activity/{file}', [ReportController::class, 'fileActivityReport'])->name('report.fileActivity');
+
+//Ruta para estadisticas
+Route::get('/report/usage-statistics', [ReportController::class, 'usageStatistics'])->name('report.usageStatistics');
+
+
 
 
 

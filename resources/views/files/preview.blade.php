@@ -8,7 +8,8 @@
         @if (str_contains($file->type, 'image'))
             <img src="{{ $fileUrl }}" class="img-fluid" alt="{{ $file->name }}">
         @elseif ($file->type === 'application/pdf')
-        <iframe src="{{ asset($file->path) }}" width="100%" height="600px"></iframe>
+        <iframe src="/stream/{{$file->id}}" width="100%" height="600px"></iframe>
+        {{-- <iframe src="{{ asset($file->path) }}" width="100%" height="600px"></iframe> --}}
         @elseif ($file->type === 'text/plain')
             <pre>{{ file_get_contents(storage_path('app/' . $file->path)) }}</pre>
         @else

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Gate;
 use App\Models\User;
+use App\Models\FileActivity; // Asegúrate de importar el modelo de actividad
 
 class FileController extends Controller
 {
@@ -45,20 +46,16 @@ class FileController extends Controller
     // Método para descargar archivos
     public function download(Fichero $file)
     {
+        // Registrar actividad de descarga
+        FileActivity::create([
+            'file_id' => $file->id,
+            'user_id' => auth()->id(),
+            'action' => 'download',
+        ]);
+
         return Storage::download($file->path, $file->name);
     }
 
-    // Método de borrado (soft delete) de archivos
-    public function delete(Fichero $file)
-    {
-        if (Gate::denies('delete', $file)) {
-            abort(403, 'No tienes permiso para realizar esta acción.');
-        }
-
-        $file->delete();
-
-        return back()->with('success', 'Archivo borrado correctamente');
-    }
 
     // Método para restaurar archivos eliminados (soft deleted)
     public function restore($id)
@@ -98,23 +95,32 @@ class FileController extends Controller
             'image/png',
             'text/plain',
         ];
-    
+
         if (in_array($file->type, $supportedTypes)) {
             $fileUrl = Storage::url($file->path);
+
+            // Registrar actividad de visualización
+            FileActivity::create([
+                'file_id' => $file->id,
+                'user_id' => auth()->id(),
+                'action' => 'view',
+            ]);
+
             return view('files.preview', compact('fileUrl', 'file'));
         }
-    
+
         abort(415, 'El formato de archivo no es compatible para vista previa.');
     }
+
 
     // Método para transmitir el archivo para vista previa en un iframe
     public function stream(Fichero $file)
     {
-        if (!file_exists(storage_path('app/' . $file->path))) {
+        if (!file_exists(storage_path('app/private/'.$file->path))) {
             abort(404, 'El archivo no se encuentra.');
         }
     
-        return response()->file(storage_path('app/' . $file->path));
+        return response()->file(storage_path('app/private/'.$file->path));
     }
 
     // Método para mostrar la vista de edición de metadatos
@@ -148,7 +154,7 @@ class FileController extends Controller
     public function share(Request $request, $id)
     {
         $fichero = Fichero::findOrFail($id); // Verifica si se obtiene correctamente el archivo
-        
+
         if (!$fichero) {
             return redirect()->back()->with('error', 'Archivo no encontrado.');
         }
@@ -159,6 +165,13 @@ class FileController extends Controller
 
         // Añadir el registro en la tabla 'file_shares' para compartir el archivo
         $fichero->sharedWith()->attach($validated['user_id']);
+
+        // Registrar actividad de compartición
+        FileActivity::create([
+            'file_id' => $fichero->id,
+            'user_id' => auth()->id(),
+            'action' => 'share',
+        ]);
 
         return redirect()->route('welcome')->with('success', 'Archivo compartido con éxito.');
     }

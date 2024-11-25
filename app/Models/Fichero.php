@@ -36,4 +36,11 @@ class Fichero extends Model
     {
         return $this->belongsToMany(User::class, 'file_shares', 'fichero_id', 'user_id');
     }
+
+    //Metodo para la actividad de los ficheros
+    public function activities()
+    {
+        return $this->hasMany(FileActivity::class, 'file_id');
+    }
+
 }
